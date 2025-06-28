@@ -432,9 +432,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📞 Support
 
-- **Issues**: [GitHub Issues](https://github.com/deepchiokshi/browser-use-local-bridge/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/deepchiokshi/browser-use-local-bridge/discussions)
-- **Documentation**: [Wiki](https://github.com/deepchiokshi/browser-use-local-bridge/wiki)
+- **Issues**: [GitHub Issues](https://github.com/deepchokshi/browser-use-local-bridge/issues)
+- **Documentation**: [Wiki](https://github.com/deepchokshi/browser-use-local-bridge/wiki)
 
 ---
 
