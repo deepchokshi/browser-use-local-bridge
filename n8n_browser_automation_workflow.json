@@ -1,0 +1,189 @@
+{
+  "name": "Browser Automation with Local Bridge",
+  "nodes": [
+    {
+      "parameters": {},
+      "name": "Start",
+      "type": "n8n-nodes-base.start",
+      "typeVersion": 1,
+      "position": [
+        240,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "url": "http://localhost:8000/api/v1/run-task",
+        "options": {
+          "headers": {
+            "X-User-ID": "n8n_user",
+            "Content-Type": "application/json"
+          }
+        },
+        "bodyParametersUi": {
+          "parameter": [
+            {
+              "name": "task",
+              "value": "Navigate to https://httpbin.org/get and extract the origin IP"
+            },
+            {
+              "name": "browser_config",
+              "value": {
+                "headless": true,
+                "enable_screenshots": true,
+                "viewport_width": 1280,
+                "viewport_height": 720
+              }
+            },
+            {
+              "name": "llm_config",
+              "value": {
+                "provider": "openai",
+                "model": "gpt-4o",
+                "temperature": 0.1
+              }
+            }
+          ]
+        }
+      },
+      "name": "Create Browser Task",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [
+        460,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "url": "=http://localhost:8000/api/v1/task/{{$json[\"id\"]}}/status",
+        "options": {
+          "headers": {
+            "X-User-ID": "n8n_user"
+          }
+        }
+      },
+      "name": "Check Task Status",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [
+        680,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{$json[\"status\"]}}",
+              "operation": "equal",
+              "value2": "FINISHED"
+            }
+          ]
+        }
+      },
+      "name": "Task Completed?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        900,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "url": "=http://localhost:8000/api/v1/task/{{$json[\"task_id\"]}}}",
+        "options": {
+          "headers": {
+            "X-User-ID": "n8n_user"
+          }
+        }
+      },
+      "name": "Get Task Results",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [
+        1120,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "amount": 5,
+        "unit": "seconds"
+      },
+      "name": "Wait 5 Seconds",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1,
+      "position": [
+        1120,
+        400
+      ]
+    }
+  ],
+  "connections": {
+    "Start": {
+      "main": [
+        [
+          {
+            "node": "Create Browser Task",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Browser Task": {
+      "main": [
+        [
+          {
+            "node": "Check Task Status",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Task Status": {
+      "main": [
+        [
+          {
+            "node": "Task Completed?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Task Completed?": {
+      "main": [
+        [
+          {
+            "node": "Get Task Results",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait 5 Seconds",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait 5 Seconds": {
+      "main": [
+        [
+          {
+            "node": "Check Task Status",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}
