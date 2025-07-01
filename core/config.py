@@ -20,7 +20,7 @@ class Settings(BaseSettings):
     
     # AI/LLM Provider Configuration
     DEFAULT_LLM_PROVIDER: str = Field(default="openai", env="DEFAULT_LLM_PROVIDER")
-    DEFAULT_MODEL: str = Field(default="gpt-4o", env="DEFAULT_MODEL")
+    DEFAULT_MODEL: str = Field(default="gpt-4o-mini", env="DEFAULT_MODEL")
     
     # OpenAI Configuration
     OPENAI_API_KEY: Optional[str] = Field(default=None, env="OPENAI_API_KEY")

@@ -2,15 +2,18 @@ from pydantic import BaseModel, Field
 from typing import Optional, List, Dict, Any
 from datetime import datetime
 
-from models.task import TaskStatus, Task, TaskCreate, TaskStep, TaskMedia, BrowserConfig, LLMConfig
+from models.task import TaskStatus, Task, TaskCreate, TaskStep, TaskMedia, BrowserConfig, BrowserProfile, BrowserSessionConfig, LLMConfig, AgentConfig
 
 # Task Schemas
 class TaskCreateRequest(BaseModel):
     """Request schema for creating a new task"""
     task: str = Field(..., description="Task description")
     user_id: Optional[str] = Field(None, description="User ID (defaults to X-User-ID header)")
-    browser_config: Optional[BrowserConfig] = Field(None, description="Browser configuration")
+    browser_config: Optional[BrowserConfig] = Field(None, description="Browser configuration (backward compatibility)")
+    browser_profile: Optional[BrowserProfile] = Field(None, description="Complete browser profile configuration")
+    browser_session_config: Optional[BrowserSessionConfig] = Field(None, description="Browser session configuration")
     llm_config: Optional[LLMConfig] = Field(None, description="LLM configuration")
+    agent_config: Optional[AgentConfig] = Field(None, description="Agent configuration")
     metadata: Dict[str, Any] = Field(default_factory=dict, description="Additional metadata")
 
 class TaskResponse(BaseModel):
@@ -28,8 +31,11 @@ class TaskResponse(BaseModel):
     steps: List[TaskStep] = Field(default_factory=list)
     current_step: Optional[str] = None
     progress_percentage: float = 0.0
-    browser_config: BrowserConfig
+    browser_config: BrowserConfig  # Backward compatibility
+    browser_profile: BrowserProfile  # Complete configuration
+    browser_session_config: Optional[BrowserSessionConfig] = None
     llm_config: LLMConfig
+    agent_config: AgentConfig
     media: List[TaskMedia] = Field(default_factory=list)
     cookies: List[Dict[str, Any]] = Field(default_factory=list)
     history: List[Dict[str, Any]] = Field(default_factory=list)

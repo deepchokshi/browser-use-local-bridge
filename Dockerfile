@@ -1,5 +1,5 @@
 # Browser-Use Local Bridge Docker Image
-# Production-ready containerization with browser support
+# Production-ready containerization with Playwright browser support
 
 FROM python:3.11-slim
 
@@ -8,16 +8,18 @@ ENV PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1 \
     PIP_NO_CACHE_DIR=1 \
     PIP_DISABLE_PIP_VERSION_CHECK=1 \
-    DEBIAN_FRONTEND=noninteractive
+    DEBIAN_FRONTEND=noninteractive \
+    PLAYWRIGHT_BROWSERS_PATH=/ms-playwright
 
-# Install system dependencies for browser automation
+# Install system dependencies for Playwright browsers
 RUN apt-get update && apt-get install -y \
     # Essential tools
     curl \
     wget \
     gnupg \
     unzip \
-    # Browser dependencies
+    git \
+    # Playwright browser dependencies
     libnss3 \
     libnspr4 \
     libatk-bridge2.0-0 \
@@ -31,18 +33,41 @@ RUN apt-get update && apt-get install -y \
     libasound2 \
     libatspi2.0-0 \
     libgtk-3-0 \
-    # Additional dependencies
+    libgdk-pixbuf2.0-0 \
+    libxfixes3 \
+    libxrender1 \
+    libcairo-gobject2 \
+    libdbus-1-3 \
+    libgtk-4-1 \
+    # Additional Playwright dependencies
     fonts-liberation \
+    fonts-noto-color-emoji \
+    fonts-unifont \
     libappindicator3-1 \
     libxshmfence1 \
+    libgconf-2-4 \
+    libxcursor1 \
+    libxdamage1 \
+    libxi6 \
+    libxtst6 \
+    libnss3-dev \
+    libgdk-pixbuf2.0-dev \
+    libgtk-3-dev \
+    libxss-dev \
+    # Video and audio support
+    libasound2-dev \
+    libpangocairo-1.0-0 \
+    libatk1.0-dev \
+    libcairo-gobject2 \
+    libgtk-3-dev \
+    libgdk-pixbuf2.0-dev \
+    # Additional fonts
+    fonts-ipafont-gothic \
+    fonts-wqy-zenhei \
+    fonts-thai-tlwg \
+    fonts-kacst \
+    fonts-freefont-ttf \
     # Cleanup
-    && rm -rf /var/lib/apt/lists/*
-
-# Install Google Chrome
-RUN wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | apt-key add - \
-    && echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list \
-    && apt-get update \
-    && apt-get install -y google-chrome-stable \
     && rm -rf /var/lib/apt/lists/*
 
 # Create non-root user for security
@@ -59,21 +84,29 @@ COPY requirements.txt .
 # Install Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
+# Install Playwright and browsers as root
+RUN playwright install --with-deps chromium \
+    && playwright install --with-deps firefox \
+    && playwright install --with-deps webkit \
+    && playwright --version
+
 # Copy application code
 COPY . .
 
-# Create necessary directories
-RUN mkdir -p /app/media /app/browser_data /app/logs \
-    && chown -R browseruser:browseruser /app
+# Create necessary directories and set permissions
+RUN mkdir -p /app/media /app/browser_data /app/logs /ms-playwright \
+    && chown -R browseruser:browseruser /app \
+    && chmod -R 755 /ms-playwright
 
 # Switch to non-root user
 USER browseruser
 
-# Set Chrome path for the application
-ENV CHROME_EXECUTABLE_PATH=/usr/bin/google-chrome-stable \
+# Set Playwright environment variables
+ENV PLAYWRIGHT_BROWSERS_PATH=/ms-playwright \
     BROWSER_HEADLESS=true \
     MEDIA_DIR=/app/media \
-    BROWSER_USER_DATA_DIR=/app/browser_data
+    BROWSER_USER_DATA_DIR=/app/browser_data \
+    BROWSER_TYPE=chromium
 
 # Expose port
 EXPOSE 8000

@@ -43,12 +43,15 @@ async def create_and_run_task(
     - **metadata**: Additional task metadata
     """
     try:
-        # Create task
+        # Create task with COMPLETE browser-use configuration support
         task_create = TaskCreate(
             task=task_request.task,
             user_id=user_id,
-            browser_config=task_request.browser_config,
+            browser_config=task_request.browser_config,  # Backward compatibility
+            browser_profile=task_request.browser_profile,  # Complete config
+            browser_session_config=task_request.browser_session_config,
             llm_config=task_request.llm_config,
+            agent_config=task_request.agent_config,
             metadata=task_request.metadata
         )
         
@@ -78,8 +81,11 @@ async def create_task(
         task_create = TaskCreate(
             task=task_request.task,
             user_id=user_id,
-            browser_config=task_request.browser_config,
+            browser_config=task_request.browser_config,  # Backward compatibility
+            browser_profile=task_request.browser_profile,  # Complete config
+            browser_session_config=task_request.browser_session_config,
             llm_config=task_request.llm_config,
+            agent_config=task_request.agent_config,
             metadata=task_request.metadata
         )
         
@@ -119,9 +125,9 @@ async def get_task(
         task = task_storage.get_task(user_id, task_id)
         if not task:
             raise HTTPException(status_code=404, detail="Task not found")
-        
+            
         return task
-        
+
     except HTTPException:
         raise
     except Exception as e:
@@ -162,11 +168,11 @@ async def get_task_steps(
         task = task_storage.get_task(user_id, task_id)
         if not task:
             raise HTTPException(status_code=404, detail="Task not found")
-        
-        return TaskStepResponse(
-            steps=task.steps,
-            current_step=task.current_step
-        )
+            
+            return TaskStepResponse(
+                steps=task.steps,
+                current_step=task.current_step
+            )
         
     except HTTPException:
         raise

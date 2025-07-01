@@ -1,315 +1,368 @@
-# Browser-Use Local Bridge API Examples
+# Browser-Use Local Bridge - Examples
 
-This folder contains practical examples demonstrating how to use the Browser-Use Local Bridge API for various automation tasks. Each example is self-contained and includes detailed comments explaining the concepts.
+This folder contains practical examples demonstrating the capabilities of the Browser-Use Local Bridge API. Each example showcases different aspects of browser automation and integration patterns.
+
+## 📁 Example Files
+
+### 1. `01_basic_web_search.py` - Basic Web Search
+**Difficulty**: Beginner  
+**Runtime**: ~2-3 minutes
+
+Demonstrates fundamental browser automation features:
+- Creating and running basic browser tasks
+- Monitoring task progress and status
+- Retrieving results and screenshots
+- Structured output configuration
+
+**Use Cases**:
+- Simple web scraping
+- Search result extraction
+- Basic data collection
+
+**Key Features Shown**:
+- Task creation with `run-task` endpoint
+- Progress monitoring
+- Screenshot generation
+- Structured JSON output
+
+### 2. `02_ecommerce_automation.py` - E-Commerce Automation
+**Difficulty**: Intermediate  
+**Runtime**: ~5-8 minutes
+
+Advanced e-commerce automation scenarios:
+- Product search and price comparison
+- Shopping cart management
+- Session persistence and cookie handling
+- Multi-step workflows
+
+**Use Cases**:
+- Competitive price monitoring
+- Product research automation
+- Shopping workflow automation
+- Market analysis
+
+**Key Features Shown**:
+- Browser session persistence
+- Complex form interactions
+- Structured data extraction
+- Multi-page navigation
+
+### 3. `03_form_automation.py` - Form Automation
+**Difficulty**: Intermediate  
+**Runtime**: ~4-6 minutes
+
+Sophisticated form handling capabilities:
+- Multi-step form workflows
+- Custom functions for smart form filling
+- Form validation and error handling
+- File upload automation
+
+**Use Cases**:
+- Job application automation
+- Contact form submissions
+- Survey completion
+- Data entry automation
+
+**Key Features Shown**:
+- Custom function integration
+- Smart form field detection
+- Validation handling
+- Safe demo mode (prevents actual submissions)
+
+### 4. `04_n8n_integration.py` - n8n Workflow Integration
+**Difficulty**: Advanced  
+**Runtime**: ~3-5 minutes
+
+Integration with n8n workflow automation:
+- Webhook-triggered browser tasks
+- Custom functions for workflow callbacks
+- Structured data for workflow continuation
+- Automation pipeline patterns
+
+**Use Cases**:
+- Workflow automation
+- Scheduled data extraction
+- Business process automation
+- Integration with existing tools
+
+**Key Features Shown**:
+- Webhook integration
+- Workflow data handling
+- Custom callback functions
+- Pipeline automation
+
+### 5. `05_advanced_monitoring.py` - Advanced Monitoring
+**Difficulty**: Advanced  
+**Runtime**: ~6-10 minutes
+
+Real-time monitoring and system management:
+- WebSocket live task monitoring
+- System performance tracking
+- Task lifecycle management (pause/resume/stop)
+- Performance metrics collection
+
+**Use Cases**:
+- Real-time monitoring dashboards
+- System administration
+- Performance optimization
+- Production monitoring
+
+**Key Features Shown**:
+- WebSocket live updates
+- System statistics
+- Task control operations
+- Performance monitoring
 
 ## 🚀 Quick Start
 
-1. **Start the API server:**
+### Prerequisites
+
+1. **Browser-Use Local Bridge API running**:
    ```bash
    python main.py
    ```
+   API should be available at `http://localhost:8000`
 
-2. **Configure your environment:**
-   - Set your OpenAI API key in `.env` file
-   - Ensure the API is running on `http://localhost:8000`
-
-3. **Run any example:**
+2. **Required Python packages**:
    ```bash
-   python examples/01_basic_task_creation.py
+   pip install httpx websockets
    ```
 
-## 📁 Examples Overview
+3. **AI Provider configured** (at least one):
+   - OpenAI API key in environment
+   - Or other supported provider configured
 
-### 1. Basic Task Creation (`01_basic_task_creation.py`)
-**What it demonstrates:**
-- Creating a simple browser automation task
-- Monitoring task progress
-- Retrieving task results
-- Basic error handling
+### Running Examples
 
-**Use case:** Perfect for beginners to understand the basic API workflow.
+Each example can be run independently:
 
-**Key concepts:**
-- Task creation with `/api/v1/run-task`
-- Status monitoring with `/api/v1/task/{id}/status`
-- Result retrieval with `/api/v1/task/{id}`
-
-### 2. Web Scraping (`02_web_scraping.py`)
-**What it demonstrates:**
-- Scraping structured data from websites
-- Taking screenshots during automation
-- Downloading media files
-- Parsing JSON results
-
-**Use case:** Data extraction from websites with visual verification.
-
-**Key concepts:**
-- Screenshot capture configuration
-- Media file handling
-- JSON data extraction
-- File download from `/api/v1/media/{task_id}/{filename}`
-
-### 3. Form Automation (`03_form_automation.py`)
-**What it demonstrates:**
-- Filling out web forms automatically
-- Form submission and response handling
-- Step-by-step progress tracking
-- Screenshot capture for verification
-
-**Use case:** Automating form submissions, data entry, and form testing.
-
-**Key concepts:**
-- Complex task instructions
-- Form field interaction
-- Submission verification
-- Detailed step monitoring
-
-### 4. WebSocket Monitoring (`04_websocket_monitoring.py`)
-**What it demonstrates:**
-- Real-time task monitoring via WebSocket
-- Concurrent monitoring (WebSocket + HTTP polling)
-- Live progress updates
-- Connection management
-
-**Use case:** Applications requiring real-time updates and monitoring.
-
-**Key concepts:**
-- WebSocket connection to `/api/v1/live/{task_id}`
-- Real-time message handling
-- Concurrent monitoring strategies
-- System statistics via `/api/v1/live/stats`
-
-**Requirements:**
 ```bash
-pip install websockets
+# Basic web search
+python examples/01_basic_web_search.py
+
+# E-commerce automation
+python examples/02_ecommerce_automation.py
+
+# Form automation
+python examples/03_form_automation.py
+
+# n8n integration
+python examples/04_n8n_integration.py
+
+# Advanced monitoring
+python examples/05_advanced_monitoring.py
 ```
 
-### 5. Task Management (`05_task_management.py`)
-**What it demonstrates:**
-- Creating and managing multiple tasks
-- Task listing and filtering
-- Task control operations (pause, resume, stop)
-- Comprehensive reporting
+### Configuration
 
-**Use case:** Managing multiple automation tasks in production environments.
+Examples use these default settings:
+- **API URL**: `http://localhost:8000`
+- **User ID**: Varies per example
+- **AI Provider**: OpenAI (gpt-4o)
+- **Browser**: Headless mode (mostly)
 
-**Key concepts:**
-- Bulk task creation
-- Task lifecycle management
-- Status filtering and pagination
-- Performance reporting
-
-### 6. n8n Integration (`06_n8n_integration.py`)
-**What it demonstrates:**
-- n8n workflow integration patterns
-- HTTP Request node configurations
-- Webhook processing
-- Workflow JSON generation
-
-**Use case:** Integrating browser automation into n8n workflows.
-
-**Key concepts:**
-- n8n-compatible API calls
-- Workflow structure design
-- Error handling in workflows
-- Generated workflow import
-
-## 🛠️ Configuration
-
-All examples use these default configurations that you can modify:
+Modify the configuration constants at the top of each file to customize:
 
 ```python
-# API Configuration
 API_BASE_URL = "http://localhost:8000"
-USER_ID = "example_user"  # Change for different examples
-
-# Browser Configuration
-browser_config = {
-    "headless": True,  # Set to False to see browser
-    "enable_screenshots": True,
-    "viewport_width": 1280,
-    "viewport_height": 720,
-    "timeout": 30000  # 30 seconds
-}
-
-# LLM Configuration
-llm_config = {
-    "provider": "openai",
-    "model": "gpt-4o",
-    "temperature": 0.1
-}
+USER_ID = "your_user_id"
 ```
 
-## 📊 Example Output
+## 🔧 Configuration Options
 
-When you run an example, you'll see output like this:
-
-```
-============================================================
-Browser-Use Local Bridge API - Basic Task Example
-============================================================
-🚀 Creating a basic browser automation task...
-✅ Task created successfully!
-   Task ID: abc123de-f456-7890-ghij-klmnopqrstuv
-   Status: CREATED
-   Provider: openai
-
-📊 Monitoring task progress...
-   Status: RUNNING (10.0%)
-   Status: RUNNING (50.0%)
-   Status: FINISHED (100.0%)
-
-📋 Getting task results...
-✅ Task completed with status: FINISHED
-   Execution time: 15.3 seconds
-   Result: The origin IP address is 203.0.113.42
-
-📝 Execution Steps:
-   1. created: Task created and initialized
-   2. started: Task execution started
-   3. llm_init: Initializing openai LLM
-   4. browser_init: Initializing browser session
-   5. execution_start: Starting task execution
-   6. completed: Task completed successfully
-
-============================================================
-Example completed! 🎉
-============================================================
-```
-
-## 🔧 Customization
-
-### Modifying Task Instructions
-
-Each example includes detailed task instructions. You can modify these to suit your needs:
-
+### Browser Configuration
 ```python
-task_data = {
-    "task": """
-    Your custom task description here.
-    Be specific about what you want the browser to do:
-    1. Navigate to a specific URL
-    2. Interact with elements
-    3. Extract specific data
-    4. Take screenshots at key points
-    """,
-    "browser_config": {
-        # Your browser settings
-    },
-    "llm_config": {
-        # Your LLM settings
+"browser_config": {
+    "headless": True,          # Run without GUI
+    "viewport_width": 1920,    # Browser width
+    "viewport_height": 1080,   # Browser height
+    "enable_screenshots": True, # Capture screenshots
+    "enable_recordings": False, # Record videos
+    "timeout": 30000           # Page timeout (ms)
+}
+```
+
+### AI/LLM Configuration
+```python
+"llm_config": {
+    "provider": "openai",      # AI provider
+    "model": "gpt-4o",         # Model name
+    "temperature": 0.1         # Response creativity
+}
+```
+
+### Agent Configuration
+```python
+"agent_config": {
+    "max_actions_per_step": 10,    # Actions per step
+    "max_failures": 3,             # Retry limit
+    "retry_delay": 2.0,            # Delay between retries
+    "use_vision": True             # Enable vision capabilities
+}
+```
+
+## 📊 Understanding Output
+
+### Task Status Values
+- `CREATED`: Task created but not started
+- `RUNNING`: Task is currently executing
+- `FINISHED`: Task completed successfully
+- `FAILED`: Task failed with error
+- `STOPPED`: Task was manually stopped
+- `PAUSED`: Task is temporarily paused
+
+### Response Structure
+```json
+{
+  "id": "task-uuid",
+  "status": "FINISHED",
+  "result": { /* Task results */ },
+  "execution_time_seconds": 45.2,
+  "progress_percentage": 100.0,
+  "media": [
+    {
+      "filename": "screenshot_001.png",
+      "media_type": "screenshot",
+      "size_bytes": 125432
     }
+  ],
+  "steps": [ /* Execution steps */ ]
 }
 ```
 
-### Different AI Providers
+## 🔍 Troubleshooting
 
-You can use different AI providers by changing the LLM configuration:
+### Common Issues
 
+1. **API Connection Failed**
+   ```
+   ❌ Cannot connect to API
+   ```
+   - Ensure the main API server is running: `python main.py`
+   - Check the API URL in the example file
+
+2. **AI Provider Not Configured**
+   ```
+   ❌ Task failed: LLM provider not configured
+   ```
+   - Set your AI provider API key in environment variables
+   - Check `.env` file configuration
+
+3. **Browser Issues on Windows**
+   ```
+   ❌ Browser automation failed due to Windows compatibility issues
+   ```
+   - Try running in Docker or WSL
+   - Ensure Playwright browsers are installed
+   - See `WINDOWS_TROUBLESHOOTING.md`
+
+4. **Task Timeout**
+   ```
+   ❌ Task timed out after X seconds
+   ```
+   - Increase timeout in example configuration
+   - Check if target websites are accessible
+   - Verify task complexity is reasonable
+
+### Debug Mode
+
+Enable debug output by modifying examples:
 ```python
-# OpenAI
-llm_config = {
-    "provider": "openai",
-    "model": "gpt-4o",
-    "temperature": 0.1
-}
-
-# Anthropic Claude
-llm_config = {
-    "provider": "anthropic",
-    "model": "claude-3-opus-20240229",
-    "temperature": 0.1
-}
-
-# Local Ollama
-llm_config = {
-    "provider": "ollama",
-    "model": "llama2",
-    "temperature": 0.1
-}
+# Add at top of file
+import logging
+logging.basicConfig(level=logging.DEBUG)
 ```
 
-### Browser Settings
+### API Documentation
 
-Customize browser behavior:
+For complete API reference:
+- Interactive docs: `http://localhost:8000/docs`
+- ReDoc: `http://localhost:8000/redoc`
+- OpenAPI spec: `http://localhost:8000/api/v1/openapi.json`
 
-```python
-browser_config = {
-    "headless": False,  # Show browser window
-    "enable_screenshots": True,
-    "enable_recordings": True,  # Enable video recording
-    "viewport_width": 1920,
-    "viewport_height": 1080,
-    "timeout": 60000,  # 60 seconds
-    "custom_flags": ["--disable-web-security"]  # Custom Chrome flags
-}
-```
+## 🛡️ Safety and Ethics
 
-## 🚨 Error Handling
+### Demo Safety Features
+- Examples include safety measures to prevent accidental actions
+- Form automation stops before actual submissions
+- E-commerce examples avoid real purchases
+- Rate limiting and timeouts prevent abuse
 
-All examples include comprehensive error handling. Common issues and solutions:
+### Best Practices
+1. **Respect robots.txt** and website terms of service
+2. **Add delays** between requests to avoid overloading servers
+3. **Use headless mode** in production for better performance
+4. **Monitor resource usage** with system stats
+5. **Implement proper error handling** for production use
 
-### API Connection Issues
-```python
-try:
-    response = requests.post(f"{API_BASE_URL}/api/v1/run-task", ...)
-    response.raise_for_status()
-except requests.exceptions.ConnectionError:
-    print("❌ Cannot connect to API. Is the server running?")
-except requests.exceptions.HTTPError as e:
-    print(f"❌ API error: {e}")
-```
-
-### Task Execution Failures
-- **Invalid API Key**: Ensure your OpenAI API key is set correctly
-- **Timeout Issues**: Increase timeout values for complex tasks
-- **Browser Issues**: Check if Chrome/Chromium is installed properly
-
-### WebSocket Connection Issues
-- **Connection Refused**: Verify the API server is running
-- **Authentication**: Ensure user_id parameter is included in WebSocket URL
+### Legal Considerations
+- Always comply with website terms of service
+- Respect rate limits and access restrictions
+- Consider data privacy regulations (GDPR, CCPA, etc.)
+- Obtain permission for commercial data extraction
 
 ## 📈 Performance Tips
 
-1. **Use Headless Mode**: Set `headless: true` for better performance
-2. **Optimize Screenshots**: Only enable when needed
-3. **Reasonable Timeouts**: Set appropriate timeout values
-4. **Concurrent Tasks**: Limit concurrent tasks based on system resources
-5. **Monitor Memory**: Use system stats endpoint to monitor resource usage
+### Optimization Strategies
+1. **Use headless mode** for better performance
+2. **Enable screenshots only when needed**
+3. **Set appropriate timeouts** for different tasks
+4. **Monitor system resources** with advanced monitoring
+5. **Use structured output** for better data processing
 
-## 🔗 Integration Patterns
-
-### Python Applications
-```python
-from examples.task_manager import TaskManager
-
-manager = TaskManager("http://localhost:8000", "my_app")
-task_id = manager.create_task("Navigate to example.com")
-result = manager.wait_for_completion(task_id)
-```
-
-### n8n Workflows
-Import the generated `n8n_browser_automation_workflow.json` into n8n for ready-to-use workflows.
-
-### REST API Integration
-Use the examples as templates for integrating with other REST API clients.
-
-## 📚 Additional Resources
-
-- **API Documentation**: See `README.md` in the root directory
-- **OpenAPI Spec**: Available at `http://localhost:8000/docs`
-- **Test Suite**: Run `python test_api.py` for comprehensive testing
-- **Docker Deployment**: Use `docker-compose up` for containerized deployment
+### Scaling Considerations
+- Monitor concurrent task limits
+- Use Redis for task queuing in production
+- Implement proper logging and monitoring
+- Consider horizontal scaling with multiple instances
 
 ## 🤝 Contributing
 
-Feel free to contribute additional examples! Follow the existing pattern:
+To add new examples:
 
-1. Create a new file: `XX_example_name.py`
-2. Include comprehensive comments and error handling
-3. Add a section to this README
-4. Test thoroughly before submitting
+1. Follow the existing naming pattern: `XX_example_name.py`
+2. Include comprehensive docstrings and comments
+3. Add error handling and safety measures
+4. Update this README with example description
+5. Test with different AI providers
+6. Include example output in comments
 
-## 📄 License
+### Example Template
+```python
+#!/usr/bin/env python3
+"""
+Example X: Your Example Name
+============================
 
-These examples are part of the Browser-Use Local Bridge project and follow the same license terms. 
+Description of what this example demonstrates.
+
+Use case: Specific scenario this example addresses
+"""
+
+import asyncio
+import httpx
+import json
+
+API_BASE_URL = "http://localhost:8000"
+USER_ID = "your_example_user"
+
+async def your_example_function():
+    """Example function with descriptive docstring"""
+    # Implementation here
+    pass
+
+if __name__ == "__main__":
+    asyncio.run(your_example_function())
+```
+
+## 📞 Support
+
+For help with examples:
+- Check the main project README
+- Review API documentation at `/docs`
+- Open an issue on GitHub
+- Check existing issues for common problems
+
+---
+
+**Happy Automating! 🤖✨** 

@@ -131,13 +131,13 @@ async def get_llm_providers():
             LLMProviderResponse(
                 provider="openai",
                 available=providers.get("openai", False),
-                models=["gpt-4o", "gpt-4o-mini", "gpt-4", "gpt-3.5-turbo"],
+                models=["gpt-4o-mini", "gpt-3.5-turbo"],
                 description="OpenAI GPT models"
             ),
             LLMProviderResponse(
                 provider="azure_openai",
                 available=providers.get("azure_openai", False),
-                models=["gpt-4", "gpt-35-turbo"],
+                models=["gpt-4o-mini", "gpt-35-turbo"],
                 description="Azure-hosted OpenAI models"
             ),
             LLMProviderResponse(
